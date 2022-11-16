@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { Provider } from "react-redux";
+
+//Routes
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import redirect from 'react-router'
+
+//Components
+import reducer from "./components/User/store";
+import FileInput from './components/home'
+import UserContainer from "./components/login";
+
+
+//Creating Redux Store
+const store = createStore(reducer, applyMiddleware(thunk));
+
 
 function App() {
+  
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Provider store={store}>
+          <Routes>
+            <Route exact path="/" element={<UserContainer />}></Route>
+          </Routes>
+        </Provider>
+          <Routes>
+          <Route exact path="/home" element={<FileInput />}></Route>
+          </Routes>
+      </div>
+    </Router>
   );
 }
-
 export default App;
